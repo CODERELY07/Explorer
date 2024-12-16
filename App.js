@@ -9,6 +9,7 @@ import LogoutScreen from './screens/LogoutScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import HomeScreen from './screens/HomeScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
+import AdminScreen from './screens/AdminScreen';
 import ContactUsScreen from './screens/ContactUsScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -62,6 +63,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeDrawer" component={HomeDrawer} options={{ headerShown: false }} />
+        <Stack.Screen name="Admin" component={AdminScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

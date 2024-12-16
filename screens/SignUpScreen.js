@@ -5,14 +5,13 @@ import styles from './../styles';
 import { AntDesign } from '@expo/vector-icons';
 import * as SQLite from 'expo-sqlite';
 
-
 const initDB = async ()=>{
     try{
       const db = await SQLite.openDatabaseAsync('sorsogonExplorer');
       await db.execAsync(`
         PRAGMA journal_mode = WAL;
         CREATE TABLE IF NOT EXISTS users (
-          id INTEGER PRIMARY KEY NOT NULL,
+           id INTEGER PRIMARY KEY AUTOINCREMENT,
           fullName TEXT NOT NULL,
           username TEXT NOT NULL UNIQUE,
           email TEXT NOT NULL UNIQUE,
