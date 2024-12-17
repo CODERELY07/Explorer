@@ -247,6 +247,52 @@ const styles = StyleSheet.create({
     width:"70%",
     textAlign:'center',
     marginVertical:8,
-  }
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
+  updatesList: {
+    width: '100%',
+    marginTop: 20,
+  },
+  updateItem: {
+    backgroundColor: '#fff',
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  updateTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  updateDescription: {
+    fontSize: 16,
+    marginTop: 5,
+  },
 });
 export default styles;

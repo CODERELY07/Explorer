@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import styles from "./../styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SQLite from "expo-sqlite";
+import * as ImagePicker from 'expo-image-picker';
 
 const initDB = async () => {
   try {
@@ -41,7 +42,7 @@ function LoginScreen({ navigation }) {
           navigation.replace("HomeDrawer");
         }
         if (adminLogin === "true") {
-          navigation.replace("Admin");
+          navigation.replace("AdminDrawer");
         }
       } catch (error) {
         console.error("Error checking login state:", error);
@@ -104,7 +105,7 @@ function LoginScreen({ navigation }) {
         setUsername("");
         setPassword("");
         setError("");
-        navigation.replace("Admin");
+        navigation.replace("AdminDrawer");
         return;
       }
       if (result) {

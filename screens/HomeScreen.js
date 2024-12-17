@@ -1,8 +1,52 @@
-import React from 'react';
-import { ScrollView, Text, View, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import * as SQLite from 'expo-sqlite';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView, Text, View, Image,Button } from 'react-native';
 import styles from './../styles';
 
 function HomeScreen() {
+  const [imageList, setImageList] = useState([]);
+  const [recentUpdates, setRecentUpdates] = useState([]);
+  const [db, setDb] = useState(null);
+
+  useEffect(() => {
+    const initializeDB = async () => {
+      const database = await SQLite.openDatabaseAsync('sorsogonExplorer');
+      setDb(database);
+      await database.execAsync(`
+        PRAGMA journal_mode = WAL;
+        CREATE TABLE IF NOT EXISTS attractions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          path TEXT,
+          title TEXT
+        );
+        CREATE TABLE IF NOT EXISTS recent_updates (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT,
+          description TEXT
+        );
+      `);
+      fetchImages(database);
+      fetchRecentUpdates(database); 
+    };
+    initializeDB();
+  }, []);
+
+  const fetchImages = async (database) => {
+    const allRows = await database.getAllAsync('SELECT * FROM attractions');
+    setImageList(allRows);
+    // Log each row's path
+    allRows.forEach((row) => {
+      console.log(row.path);
+    });
+  };
+
+  const fetchRecentUpdates = async (database) => {
+    const result = await database.getAllAsync('SELECT * FROM recent_updates');
+    setRecentUpdates(result); 
+  };
+
   return (
     <ScrollView style={styles.mainContainer}>
       <View>
@@ -17,43 +61,37 @@ function HomeScreen() {
       <View>
         <Text style={styles.sectionTitle}>Featured Attractions</Text>
         <View style={styles.attractionsContainer}>
-          <View style={styles.boxContainer}>
-            <View style={styles.boxImageHolder}>
-              <Image source={require('./../assets/Tikling.jpg')} style={styles.placeImage} />
-            </View>
-            <Text style={styles.attractionText}>Tikling Island</Text>
-          </View>
-          <View style={styles.boxContainer}>
-            <View style={styles.boxImageHolder}>
-              <Image source={require('./../assets/Bulusan.jpg')} style={styles.placeImage} />
-            </View>
-            <Text style={styles.attractionText}>Bulusan Lake</Text>
-          </View>
-          <View style={styles.boxContainer}>
-            <View style={styles.boxImageHolder}>
-              <Image source={require('./../assets/Paguriran.jpg')} style={styles.placeImage} />
-            </View>
-            <Text style={styles.attractionText}>Pagurian Island</Text>
-          </View>
-          <View style={styles.boxContainer}>
-            <View style={styles.boxImageHolder}>
-              <Image source={require('./../assets/Complex.jpg')} style={styles.placeImage} />
-            </View>
-            <Text style={styles.attractionText}>Sorsogon Sports Complex</Text>
-          </View>
-        </View>
-        <View style={styles.updatesContainer}>
-          <Text style={styles.sectionTitle}>Recent Updates</Text>
-          <Text style={styles.updateText}>
-            <Text style={styles.highlight}>Sorsogon's "Bicol Express" Train: </Text>
-            The Bicol Express train route has been extended to Sorsogon, providing a convenient and scenic way to travel to the province.{"\n"}{"\n"}
-            <Text style={styles.highlight}>New Eco-Tourism Park: </Text>
-            A new eco-tourism park is being developed in Sorsogon, featuring a variety of activities like ziplining, kayaking, and nature trails.{"\n"}{"\n"}
-            <Text style={styles.highlight}>Sorsogon's "Taste of Bicol" Festival: </Text>
-            The annual "Taste of Bicol" festival in Sorsogon will feature a variety of culinary delights from the region, including fresh seafood, spicy dishes, and traditional desserts.
-          </Text>
+          {imageList.length > 0 ? (
+            imageList.map((image, index) => (
+              <View key={index} style={styles.boxContainer}>
+                <View style={styles.boxImageHolder}>
+                  <Image 
+                    source={{ uri: image.path }} 
+                    style={styles.placeImage} 
+                  />
+                </View>
+                <Text style={styles.attractionText}>{image.title}</Text>
+              </View>
+            ))
+          ) : (
+            <Text>No images available.</Text>
+          )}
         </View>
       </View>
+
+      {recentUpdates.length > 0 ? (
+        <View style={styles.updatesContainer}>
+          <Text style={styles.sectionTitle}>Recent Updates</Text>
+          {recentUpdates.map((update, index) => (
+            <Text key={index} style={styles.updateText}>
+              <Text style={styles.highlight}>{update.title}: </Text>
+              <Text>{update.description}</Text>
+            </Text>
+          ))}
+        </View>
+      ) : (
+        <Text>No recent updates available.</Text>
+      )}
     </ScrollView>
   );
 }

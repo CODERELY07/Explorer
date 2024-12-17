@@ -11,10 +11,52 @@ import HomeScreen from './screens/HomeScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
 import AdminScreen from './screens/AdminScreen';
 import ContactUsScreen from './screens/ContactUsScreen';
+import ManageRecentlyUpdatedScreen from './screens/ManageRecentlyUpdatedScreen';
+import UserFeedbacksScreen from './screens/UserFeedbacksScreen';
+import ManagePlacesScreen from './screens/ManagePlaceScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+
+function AdminDrawer({ navigation }) {
+  return (
+    <Drawer.Navigator initialRouteName="AdminScreen">
+      <Drawer.Screen name="Admin" component={AdminScreen} />
+      <Drawer.Screen name="Manage Places" component={ManagePlacesScreen} />
+      <Drawer.Screen name="Manage Recently Updated" component={ManageRecentlyUpdatedScreen} />
+      <Drawer.Screen name="Users Feedbacks" component={UserFeedbacksScreen} />
+      <Drawer.Screen
+        name="Logout"
+        listeners={{
+          focus: () => {
+            Alert.alert(
+              'Are you sure?',
+              'Do you really want to logout?',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'Logout',
+                  onPress: () => {
+                    AsyncStorage.removeItem('adminLogin');
+                    AsyncStorage.removeItem('username');
+                    navigation.replace('Login');
+                  },
+                  style: 'destructive',
+                },
+              ]
+            );
+          },
+        }}
+        component={LogoutScreen}
+      />
+    </Drawer.Navigator>
+  );
+}
 
 function HomeDrawer({ navigation }) {
   return (
@@ -63,7 +105,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeDrawer" component={HomeDrawer} options={{ headerShown: false }} />
-        <Stack.Screen name="Admin" component={AdminScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="AdminDrawer" component={AdminDrawer} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
