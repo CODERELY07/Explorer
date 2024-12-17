@@ -20,7 +20,7 @@ export default function ManagePlacesScreen() {
   const [title, setTitle] = useState('');
   const [db, setDb] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [editingItem, setEditingItem] = useState(null); // Store the item being edited
+  const [editingItem, setEditingItem] = useState(null); 
   const [newTitle, setNewTitle] = useState('');
 
   useEffect(() => {
@@ -103,10 +103,11 @@ export default function ManagePlacesScreen() {
         editingItem.id,
       ]);
       console.log('Title updated successfully!');
+      
       fetchImages(db);
-      setModalVisible(false); // Close modal
-      setEditingItem(null); // Clear editing item
-      setNewTitle(''); // Clear input field
+      setModalVisible(false); 
+      setEditingItem(null); 
+      setNewTitle(''); 
     }
   };
 
@@ -141,11 +142,11 @@ export default function ManagePlacesScreen() {
     <View style={styles.container}>
       <View style={{ width: '80%' }}>
         <Text style={{ color: '#3C3D37', textAlign: 'center', marginVertical: 10 }}>
-          Pick Image and add title to upload new Attractions
+          Pick Image and add Place Name to upload new Attractions
         </Text>
         <TextInput
           style={styles.inputField}
-          placeholder="Title"
+          placeholder="Place Name"
           value={title}
           onChangeText={setTitle}
         />
@@ -168,7 +169,6 @@ export default function ManagePlacesScreen() {
         horizontal={true}
       />
 
-      {/* Modal for editing */}
       <Modal
         visible={modalVisible}
         transparent={true}

@@ -294,5 +294,42 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 5,
   },
+  feedbackList: {
+    marginBottom: 20,
+  },
+  feedbackItem: {
+    backgroundColor: '#fff',
+    padding: 15,
+    marginBottom: 15,
+    width:330,
+    borderRadius: 10,
+    shadowColor: '#000',
+    borderColor:"#DDD",
+    borderWidth:1,
+  },
+  usernameFeedback: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#007BFF',
+    marginBottom: 8,
+  },
+  feedbackText: {
+    fontSize: 16,
+    color: '#555',
+    lineHeight: 22,
+  },
+  noFeedbackText: {
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#888',
+    marginTop: 20,
+  },
+  feadbackHeader: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
 });
 export default styles;

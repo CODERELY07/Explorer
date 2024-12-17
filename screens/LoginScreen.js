@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import styles from "./../styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SQLite from "expo-sqlite";
-import * as ImagePicker from 'expo-image-picker';
+
 
 const initDB = async () => {
   try {

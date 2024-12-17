@@ -5,12 +5,13 @@ import styles from './../styles';
 
 const initializeDb = async () => {
   const db = await SQLite.openDatabaseAsync('sorsogonExplorer');
-  // Create feedback table if it doesn't exist
+
   await db.execAsync(`
     PRAGMA journal_mode = WAL;
     CREATE TABLE IF NOT EXISTS feedback (
       id INTEGER PRIMARY KEY NOT NULL,
-      feedback TEXT NOT NULL
+      feedback TEXT NOT NULL,
+      username TEXT NOT NULL,
     );
   `);
 };
@@ -41,20 +42,23 @@ const UserFeedbacksScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>All Feedback</Text>
-      <ScrollView style={styles.feedbackList}>
-        {feedbackList.length > 0 ? (
-          feedbackList.map((item) => (
-            <View key={item.id} style={styles.feedbackItem}>
-              <Text style={styles.feedbackText}>{item.feedback}</Text>
-            </View>
-          ))
-        ) : (
-          <Text>No feedback available.</Text>
-        )}
-      </ScrollView>
-    </View>
+
+      <View style={styles.container}>
+        <Text style={styles.feadbackHeader}>Feedbacks From Users</Text>
+        <ScrollView style={styles.feedbackList}>
+          {feedbackList.length > 0 ? (
+            feedbackList.map((item) => (
+              <View key={item.id} style={styles.feedbackItem}>
+                <Text style={styles.usernameFeedback}>{item.username}</Text>
+                <Text style={styles.feedbackText}>{item.feedback}</Text>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noFeedbackText}>No feedback available.</Text>
+          )}
+        </ScrollView>
+      </View>
+    
   );
 };
 
